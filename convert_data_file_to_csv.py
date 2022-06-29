@@ -103,4 +103,4 @@ data.experimental_conditions = ['(1) LMTK 0%', '(2) LMTK 1%', '(3) LMTK 2%', '(4
 data.save_matrix_to_csv()
 
 data.create_frequency_distribution_matrix(attribute="Circ.", start=0, end=1, number_of_bins=10)
-data.create_frequency_distribution_matrix(attribute="Area", start=100, end=200, number_of_bins=20)
+data.create_frequency_distribution_matrix(attribute="Area", start=100, end=200, number_of_bins=10)
