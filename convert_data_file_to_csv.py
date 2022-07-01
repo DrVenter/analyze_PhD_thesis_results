@@ -1,3 +1,13 @@
+"""
+this script is used to convert the raw data output from ImageJ into a CSV format
+and also creates a frequency distribution of the data.
+"""
+
+extension = ".xls"
+file_root_name = "fibroblasts_cultured_in_serum_"
+files_in_folder = ["n=1", "n=2", "n=3"]
+experimental_conditions = ['(1) LMTK 0%', '(2) LMTK 1%', '(3) LMTK 2%', '(4) LMTK 5%', '(5) LMTK 10%']
+
 import numpy as np
 import pandas as pd
 
@@ -32,6 +42,7 @@ class Data_to_CSV:
     def save_matrix_to_csv(self):
         data = pd.DataFrame(self.matrix)
 
+        #set first row as header
         data.columns = data.iloc[0]
         data = data[1:]
 
@@ -96,11 +107,15 @@ class Data_to_CSV:
         frequency_matrix = frequency_matrix[1:]
         frequency_matrix.to_csv(f"{file_name}_frequency_distribution_{attribute}.csv", index=False)
 
-file_name = "fibroblasts_cultured_in_serum_n=1"
-extension = ".xls"
-data = Data_to_CSV(file_name, extension)
-data.experimental_conditions = ['(1) LMTK 0%', '(2) LMTK 1%', '(3) LMTK 2%', '(4) LMTK 5%', '(5) LMTK 10%']
-data.save_matrix_to_csv()
+for file in files_in_folder:
+    file_name = file_root_name + file
 
-data.create_frequency_distribution_matrix(attribute="Circ.", start=0, end=1, number_of_bins=10)
-data.create_frequency_distribution_matrix(attribute="Area", start=100, end=200, number_of_bins=10)
+    try:
+        data = Data_to_CSV(file_name, extension)
+        data.experimental_conditions = experimental_conditions
+        data.save_matrix_to_csv()
+
+        data.create_frequency_distribution_matrix(attribute="Circ.", start=0, end=1, number_of_bins=10)
+        data.create_frequency_distribution_matrix(attribute="Area", start=100, end=200, number_of_bins=10)
+    except:
+        continue
